@@ -1,25 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import { routes } from './routes';
+import A2HS from "./Theme/Components/A2HS";
+import Internet from './Theme/Components/Internet';
+import Update from "./Theme/Components/Update";
+import Layout from './Theme/Layout';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+
+        <Update />
+        <A2HS />
+        <Internet />
+
+        <Switch>
+          {routes.map((route, index) => {
+            const Component = route.component;
+
+            return (
+              <Route 
+                key={index}
+                exact path={route.path}
+              >
+                <Layout>
+                  <Component />
+                </Layout>
+              </Route>
+            )
+
+          })}
+        </Switch>
+
+      </div>
+    </Router>
   );
 }
 
