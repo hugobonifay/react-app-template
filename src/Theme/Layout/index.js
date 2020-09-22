@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { 
   BottomNavigation, 
@@ -8,10 +8,9 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import { Home } from "@material-ui/icons";
 import logo from "../Images/logo.png";
 import { appName } from "../../utilities";
+import { routes } from "../../routes";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -75,27 +74,22 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NavigationLink = ({ to, linkName }) => {
-  const classes = useStyles();
-
-  return (
-    <NavLink 
-      exact to={to}
-      className={classes.navlink}
-      activeStyle={{ opacity: 1 }}
-    >
-      {linkName}
-    </NavLink>
-  )
-};
-
-export default function Layout({ children }) {
+const Layout = ({ 
+  title, 
+  documentTitle, 
+  children 
+}) => {
   const history = useHistory();
   const classes = useStyles();
 
   const onRedirectToHome = () => {
     history.push("/");
   }
+
+  useEffect(() => {
+    document.title = documentTitle || appName;
+    window.scrollTo(0, 0);
+  }, [documentTitle]);
   
   return (
     <div>
@@ -111,8 +105,16 @@ export default function Layout({ children }) {
               />
             </div>
             <div className={classes.navigation}>
-              <NavigationLink to={"/"} linkName={"Accueil"} />
-              <NavigationLink to={"/page2"} linkName={"Page2"} />
+              {routes.map((route, index) => route.label && 
+                <NavLink 
+                  key={index}
+                  exact to={route.path}
+                  className={classes.navlink}
+                  activeStyle={{ opacity: 1 }}
+                >
+                  {route.label}
+                </NavLink>
+              )}
             </div>
             <div>
               {/* Account avatar navlink */}
@@ -126,7 +128,9 @@ export default function Layout({ children }) {
             <div>
             </div>
             <div>
-              <Typography color={"inherit"} variant={"h6"}>{appName}</Typography>
+              <Typography color={"inherit"} variant={"h6"}>
+                {title || appName}
+              </Typography>
             </div>
             <div>
             </div>
@@ -138,28 +142,29 @@ export default function Layout({ children }) {
       </div>
       <div className={classes.bottomNavCont}>
         <BottomNavigation showLabels className={classes.bottomNav}>
-          <BottomNavigationAction 
-            activeClassName="Mui-selected" 
-            component={NavLink} 
-            exact to={"/"} 
-            label="Accueil"
-            icon={<Home />} 
-            classes={{
-              label: classes.label
-            }}
-          />
-          <BottomNavigationAction 
-            activeClassName="Mui-selected"
-            component={NavLink}
-            exact to={"/page2"} 
-            label="Page 2"
-            icon={<FavoriteIcon />} 
-            classes={{
-              label: classes.label
-            }}
-          />
+          {routes.map((route, index) => {
+            if (route.icon && route.label) {
+              const Icon = route.icon;
+              return (
+                <BottomNavigationAction 
+                  key={index}
+                  activeClassName="Mui-selected" 
+                  component={NavLink} 
+                  exact to={route.path} 
+                  label={route.label}
+                  icon={<Icon />} 
+                  classes={{
+                    label: classes.label
+                  }}
+                />
+              )
+            } 
+            return null;
+          })}
         </BottomNavigation>
       </div>
     </div>
   );
 }
+
+export default Layout;

@@ -8,38 +8,33 @@ import { routes } from './routes';
 import A2HS from "./Theme/Components/A2HS";
 import Internet from './Theme/Components/Internet';
 import Update from "./Theme/Components/Update";
-import Layout from './Theme/Layout';
 
-function App() {
-  return (
-    <Router>
-      <div>
+const App = () => (
+  <Router>
+    <div>
 
-        <Update />
-        <A2HS />
-        <Internet />
+      <Update />
+      <A2HS />
+      <Internet />
 
-        <Switch>
-          {routes.map((route, index) => {
-            const Component = route.component;
+      <Switch>
+        {routes.map((route, index) => {
+          const Component = route.component;
 
-            return (
-              <Route 
-                key={index}
-                exact path={route.path}
-              >
-                <Layout>
-                  <Component />
-                </Layout>
-              </Route>
-            )
+          return (
+            <Route 
+              key={index}
+              exact path={route.path}
+            >
+              <Component />
+            </Route>
+          )
 
-          })}
-        </Switch>
+        })}
+      </Switch>
 
-      </div>
-    </Router>
-  );
-}
+    </div>
+  </Router>
+);
 
 export default App;
