@@ -9,10 +9,12 @@ Made with create-react-app
     - Dark theme
 * Redux
 * Router
+* Nav 
+    - AppBar Nav for large screen
+    - BottomNav for small screen
 * Update Button
 * A2HS
 * Internet connection detection
-* Nav / Menu
 * Home page
 * Second Page
 * Disabled zoom

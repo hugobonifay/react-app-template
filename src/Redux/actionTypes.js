@@ -1,4 +1,3 @@
 // main
-export const MAIN_CHANGE_TITLE = "MAIN_CHANGE_TITLE";
 export const MAIN_CHANGE_THEME = "MAIN_CHANGE_THEME";
 export const MAIN_CHANGE_A2HS = "MAIN_CHANGE_A2HS";
