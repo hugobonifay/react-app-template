@@ -1,18 +1,29 @@
 import React from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
+import { 
+  BottomNavigation, 
+  BottomNavigationAction, 
+  Typography 
+} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Home } from "@material-ui/icons";
 import logo from "../Images/logo.png";
+import { appName } from "../../utilities";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     flexGrow: 1,
     [theme.breakpoints.down('xs')]: {
       display: "none"
+    },
+  },
+  appBarMobile: {
+    display: "none",
+    [theme.breakpoints.down('xs')]: {
+      display: "block"
     },
   },
   toolbar: {
@@ -41,12 +52,11 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 1250,
     margin: "0 auto",
     [theme.breakpoints.down('xs')]: {
-      paddingTop: 0,
       paddingBottom: 75,
       margin: "0px 5px"
     },
   },
-  bottomNav: {
+  bottomNavCont: {
     width: "100%",
     position: "fixed",
     bottom: 0,
@@ -57,6 +67,12 @@ const useStyles = makeStyles((theme) => ({
       display: "block"
     },
   },
+  bottomNav: {
+    //height: 45
+  },
+  label: {
+    //display: "none"
+  }
 }));
 
 const NavigationLink = ({ to, linkName }) => {
@@ -104,17 +120,33 @@ export default function Layout({ children }) {
           </Toolbar>
         </AppBar>
       </div>
+      <div className={classes.appBarMobile}>
+        <AppBar position="fixed" color="inherit">
+          <Toolbar className={classes.toolbar}>
+            <div>
+            </div>
+            <div>
+              <Typography color={"inherit"} variant={"h6"}>{appName}</Typography>
+            </div>
+            <div>
+            </div>
+          </Toolbar>
+        </AppBar>
+      </div>
       <div className={classes.main}>
         {children}
       </div>
-      <div className={classes.bottomNav}>
-        <BottomNavigation showLabels>
+      <div className={classes.bottomNavCont}>
+        <BottomNavigation showLabels className={classes.bottomNav}>
           <BottomNavigationAction 
             activeClassName="Mui-selected" 
             component={NavLink} 
             exact to={"/"} 
             label="Accueil"
             icon={<Home />} 
+            classes={{
+              label: classes.label
+            }}
           />
           <BottomNavigationAction 
             activeClassName="Mui-selected"
@@ -122,6 +154,9 @@ export default function Layout({ children }) {
             exact to={"/page2"} 
             label="Page 2"
             icon={<FavoriteIcon />} 
+            classes={{
+              label: classes.label
+            }}
           />
         </BottomNavigation>
       </div>
