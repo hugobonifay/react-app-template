@@ -6,6 +6,7 @@ const Page2 = () => {
 
     useEffect(() => {
         document.title = "Page2 - " + appName;
+        window.scrollTo(0, 0);
     }, []);
 
     return (

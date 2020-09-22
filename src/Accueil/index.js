@@ -7,6 +7,7 @@ const Accueil = () => {
 
     useEffect(() => {
         document.title = appName;
+        window.scrollTo(0, 0);
     }, []);
 
     return (
